@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- اتصال الإنترنت لتشغيل Firebase -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- إشعارات Android 13 وما بعده -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -8,6 +12,7 @@
         android:label="NEGM"
         android:theme="@style/AppTheme">
 
+        <!-- الشاشة الرئيسية -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -19,6 +24,7 @@
 
         </activity>
 
+        <!-- استقبال إشعارات Firebase -->
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
