@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>NEGM Messenger</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#08090d;
+    --panel:#101218;
+    --panel2:#171922;
+    --border:#252936;
+    --text:#fff;
+    --muted:#9da2b1;
+    --accent:#7c5cff;
+    --accent2:#5b3ee4;
+    --danger:#ff4d67;
+    --green:#35d07f;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,"Tahoma",sans-serif;
+}
+
+button,input,textarea{
+    font-family:inherit;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* AUTH */
+
+#authScreen{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at top,#211a4d 0%,transparent 38%),
+        var(--bg);
+}
+
+.authBox{
+    width:min(430px,100%);
+    background:rgba(16,18,24,.95);
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:28px;
+    box-shadow:0 25px 80px rgba(0,0,0,.5);
+}
+
+.logo{
+    text-align:center;
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:4px;
+    color:#fff;
+    margin-bottom:7px;
+}
+
+.logoSub{
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:28px;
+}
+
+.authTabs{
+    display:flex;
+    background:#0a0b0f;
+    padding:4px;
+    border-radius:14px;
+    margin-bottom:20px;
+}
+
+.authTabs button{
+    flex:1;
+    padding:12px;
+    background:transparent;
+    color:var(--muted);
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.authTabs button.active{
+    background:var(--accent);
+    color:#fff;
+}
+
+.field{
+    margin-bottom:14px;
+}
+
+.field label{
+    display:block;
+    color:#c9ccd5;
+    margin-bottom:7px;
+    font-size:13px;
+}
+
+.field input{
+    width:100%;
+    height:48px;
+    border:1px solid var(--border);
+    outline:none;
+    background:#0b0c11;
+    color:#fff;
+    border-radius:13px;
+    padding:0 15px;
+    font-size:15px;
+}
+
+.field input:focus{
+    border-color:var(--accent);
+}
+
+.primaryBtn{
+    width:100%;
+    height:50px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;
+    border-radius:14px;
+    font-weight:bold;
+    font-size:15px;
+    margin-top:6px;
+}
+
+.authInfo{
+    text-align:center;
+    color:#747988;
+    font-size:12px;
+    margin-top:18px;
+    line-height:1.7;
+}
+
+/* APP */
+
+#app{
+    width:100%;
+    height:100%;
+    display:flex;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:350px;
+    min-width:350px;
+    height:100%;
+    background:var(--panel);
+    border-left:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+}
+
+.sidebarHeader{
+    padding:18px 16px 12px;
+}
+
+.topRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.brand{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.iconBtn{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:var(--panel2);
+    color:#fff;
+    font-size:19px;
+}
+
+.search{
+    width:100%;
+    height:43px;
+    border-radius:13px;
+    border:1px solid var(--border);
+    background:#0b0c11;
+    color:#fff;
+    outline:none;
+    padding:0 14px;
+}
+
+.chats{
+    flex:1;
+    overflow-y:auto;
+    padding:5px 9px;
+}
+
+.chatItem{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:15px;
+    margin-bottom:3px;
+    cursor:pointer;
+}
+
+.chatItem:hover,
+.chatItem.active{
+    background:var(--panel2);
+}
+
+.avatar{
+    width:49px;
+    height:49px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#765cff,#3822a8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:18px;
+    flex-shrink:0;
+    overflow:hidden;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.chatInfo{
+    min-width:0;
+    flex:1;
+}
+
+.chatName{
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.chatLast{
+    color:var(--muted);
+    font-size:12px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.chatTime{
+    color:#777b89;
+    font-size:10px;
+}
+
+.empty{
+    text-align:center;
+    color:#777b89;
+    padding:45px 20px;
+    line-height:1.8;
+}
+
+/* PROFILE */
+
+.profile{
+    border-top:1px solid var(--border);
+    padding:11px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profile .avatar{
+    width:42px;
+    height:42px;
+    font-size:15px;
+}
+
+.profileInfo{
+    flex:1;
+    min-width:0;
+}
+
+.profileName{
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.profileEmail{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.logout{
+    background:#211015;
+    color:#ff7084;
+    width:38px;
+    height:38px;
+    border-radius:11px;
+}
+
+/* CHAT */
+
+.chat{
+    flex:1;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    background:
+        radial-gradient(circle at center,rgba(124,92,255,.035),transparent 45%),
+        var(--bg);
+}
+
+.chatHeader{
+    height:68px;
+    min-height:68px;
+    border-bottom:1px solid var(--border);
+    background:rgba(10,11,15,.92);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px 15px;
+}
+
+.backBtn{
+    display:none;
+}
+
+.chatHeaderInfo{
+    flex:1;
+}
+
+.chatHeaderName{
+    font-weight:bold;
+}
+
+.chatHeaderStatus{
+    font-size:11px;
+    color:var(--green);
+    margin-top:4px;
+}
+
+.messages{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 15px;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.message{
+    max-width:min(72%,520px);
+    padding:10px 13px;
+    border-radius:17px;
+    line-height:1.55;
+    word-break:break-word;
+    font-size:14px;
+}
+
+.message.mine{
+    align-self:flex-start;
+    background:linear-gradient(135deg,var(--accent),#5637d2);
+    border-bottom-left-radius:5px;
+}
+
+.message.theirs{
+    align-self:flex-end;
+    background:#1a1c24;
+    border-bottom-right-radius:5px;
+}
+
+.messageMedia img, .messageMedia video {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.messageFile {
+    display: inline-block;
+    color: #fff;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+.messageTime{
+    display:block;
+    font-size:9px;
+    opacity:.65;
+    margin-top:4px;
+    text-align:left;
+}
+
+.composer{
+    min-height:70px;
+    border-top:1px solid var(--border);
+    background:#0d0e13;
+    padding:10px;
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+}
+
+.attachBtn{
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    background:var(--panel2);
+    color:#fff;
+    font-size:20px;
+}
+
+#messageInput{
+    flex:1;
+    min-height:44px;
+    max-height:120px;
+    resize:none;
+    outline:none;
+    border:1px solid var(--border);
+    background:#171820;
+    color:#fff;
+    border-radius:14px;
+    padding:12px 14px;
+    font-size:14px;
+}
+
+.sendBtn{
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    background:var(--accent);
+    color:#fff;
+    font-size:18px;
+}
+
+/* WELCOME */
+
+.welcome{
+    flex:1;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+}
+
+.welcomeLogo{
+    width:90px;
+    height:90px;
+    border-radius:28px;
+    background:linear-gradient(135deg,var(--accent),#3822a8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:900;
+    margin-bottom:22px;
+    box-shadow:0 15px 50px rgba(124,92,255,.25);
+}
+
+.welcome h1{
+    font-size:27px;
+    margin-bottom:10px;
+}
+
+.welcome p{
+    color:var(--muted);
+    max-width:420px;
+    line-height:1.8;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modalBox{
+    width:min(430px,100%);
+    background:#11131a;
+    border:1px solid var(--border);
+    border-radius:23px;
+    padding:22px;
+}
+
+.modalTitle{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.modalActions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.modalActions button{
+    flex:1;
+    height:45px;
+    border-radius:12px;
+}
+
+.cancelBtn{
+    background:#20222b;
+    color:#fff;
+}
+
+.confirmBtn{
+    background:var(--accent);
+    color:#fff;
+}
+
+/* TOAST */
+
+#toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:#1b1d25;
+    border:1px solid #30333e;
+    color:#fff;
+    padding:12px 17px;
+    border-radius:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    z-index:999;
+    max-width:90%;
+    text-align:center;
+    font-size:13px;
+}
+
+#toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:100%;
+        min-width:100%;
+    }
+
+    .chat{
+        position:fixed;
+        inset:0;
+        z-index:20;
+        transform:translateX(100%);
+        transition:.2s;
+    }
+
+    .chat.mobileOpen{
+        transform:translateX(0);
+    }
+
+    .backBtn{
+        display:block;
+        width:40px;
+        height:40px;
+        border-radius:12px;
+        background:var(--panel2);
+        color:#fff;
+        font-size:18px;
+    }
+
+    .message{
+        max-width:82%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     AUTH
+========================= -->
+
+<section id="authScreen">
+
+    <div class="authBox">
+
+        <div class="logo">NEGM</div>
+
+        <div class="logoSub">
+            Messenger
+        </div>
+
+        <div class="authTabs">
+
+            <button id="loginTab" class="active" onclick="showAuth('login')">
+                تسجيل الدخول
+            </button>
+
+            <button id="registerTab" onclick="showAuth('register')">
+                إنشاء حساب
+            </button>
+
+        </div>
+
+        <div id="loginForm">
+
+            <div class="field">
+                <label>البريد الإلكتروني أو اسم المستخدم</label>
+                <input id="loginIdentity"
+                       type="text"
+                       autocomplete="username"
+                       placeholder="example@email.com">
+            </div>
+
+            <div class="field">
+                <label>كلمة المرور</label>
+                <input id="loginPassword"
+                       type="password"
+                       autocomplete="current-password"
+                       placeholder="••••••••">
+            </div>
+
+            <button class="primaryBtn" onclick="login()">
+                دخول
+            </button>
+
+        </div>
+
+        <div id="registerForm" class="hidden">
+
+            <div class="field">
+                <label>اسم المستخدم</label>
+                <input id="registerUsername"
+                       type="text"
+                       autocomplete="username"
+                       placeholder="NEGM_USER">
+            </div>
+
+            <div class="field">
+                <label>البريد الإلكتروني</label>
+                <input id="registerEmail"
+                       type="email"
+                       autocomplete="email"
+                       placeholder="example@email.com">
+            </div>
+
+            <div class="field">
+                <label>كلمة المرور</label>
+                <input id="registerPassword"
+                       type="password"
+                       autocomplete="new-password"
+                       placeholder="••••••••">
+            </div>
+
+            <button class="primaryBtn" onclick="register()">
+                إنشاء الحساب
+            </button>
+
+        </div>
+
+        <div class="authInfo">
+            NEGM Messenger<br>
+            منصة مراسلة بسيطة وسريعة
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<section id="app" class="hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebarHeader">
+
+            <div class="topRow">
+
+                <div class="brand">NEGM</div>
+
+                <button class="iconBtn"
+                        onclick="openNewChat()"
+                        title="محادثة جديدة">
+                    +
+                </button>
+
+            </div>
+
+            <input
+                id="chatSearch"
+                class="search"
+                type="search"
+                placeholder="بحث في المحادثات..."
+                oninput="renderChats()">
+
+        </div>
+
+        <div id="chats" class="chats"></div>
+
+        <div class="profile">
+
+            <div id="profileAvatar" class="avatar">
+                N
+            </div>
+
+            <div class="profileInfo">
+
+                <div id="profileName" class="profileName">
+                    NEGM
+                </div>
+
+                <div id="profileEmail" class="profileEmail">
+                    -
+                </div>
+
+            </div>
+
+            <button class="logout" onclick="logout()">
+                ⎋
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- WELCOME -->
+
+    <section id="welcome" class="welcome">
+
+        <div class="welcomeLogo">
+            N
+        </div>
+
+        <h1>مرحبًا بك في NEGM</h1>
+
+        <p>
+            اختر محادثة من القائمة أو اضغط على +
+            لبدء محادثة جديدة.
+        </p>
+
+    </section>
+
+
+    <!-- CHAT -->
+
+    <section id="chat" class="chat hidden">
+
+        <header class="chatHeader">
+
+            <button class="backBtn" onclick="closeMobileChat()">
+                ←
+            </button>
+
+            <div id="chatAvatar" class="avatar">
+                N
+            </div>
+
+            <div class="chatHeaderInfo">
+
+                <div id="chatName" class="chatHeaderName">
+                    -
+                </div>
+
+                <div class="chatHeaderStatus">
+                    NEGM
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <main id="messages" class="messages"></main>
+
+
+        <div class="composer">
+
+            <button
+                class="attachBtn"
+                onclick="attachmentNotice()">
+                +
+            </button>
+            <input type="file" id="fileInput" class="hidden" onchange="uploadFile(event)">
+
+            <textarea
+                id="messageInput"
+                rows="1"
+                placeholder="اكتب رسالة..."
+                onkeydown="messageKey(event)"
+                oninput="resizeInput(this)">
+            </textarea>
+
+            <button
+                class="sendBtn"
+                onclick="sendMessage()">
+                ➤
+            </button>
+
+        </div>
+
+    </section>
+
+</section>
+
+
+<!-- =========================
+     NEW CHAT MODAL
+========================= -->
+
+<div id="newChatModal" class="modal hidden">
+
+    <div class="modalBox">
+
+        <div class="modalTitle">
+            بدء محادثة جديدة
+        </div>
+
+        <div class="field">
+
+            <label>
+                اسم المستخدم أو البريد الإلكتروني
+            </label>
+
+            <input
+                id="newChatIdentity"
+                type="text"
+                placeholder="@username أو email">
+
+        </div>
+
+        <div class="modalActions">
+
+            <button
+                class="cancelBtn"
+                onclick="closeNewChat()">
+                إلغاء
+            </button>
+
+            <button
+                class="confirmBtn"
+                onclick="createChat()">
+                بدء المحادثة
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+/* =========================================================
+   NEGM CONFIG
+========================================================= */
+
+const CONFIG = {
+
+    /*
+      Firebase = الحسابات + المحادثات + الرسائل
+    */
+    FIREBASE_DB:
+        "https://nanaa-1f1a5-default-rtdb.europe-west1.firebasedatabase.app",
+
+    /*
+      Supabase Storage = الصور + الفيديوهات + الملفات
+    */
+    SUPABASE_URL: "https://byesoztsovwhnxrsgnsm.supabase.co",
+    SUPABASE_PUBLISHABLE_KEY: "sb_publishable_38mm264m5JCeJua1QmTWHw_k5iNYJhM",
+    SUPABASE_BUCKET: "memories"
+
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const state = {
+
+    user: null,
+
+    chats: [],
+
+    currentChat: null,
+
+    currentOtherUser: null,
+
+    messages: [],
+
+    polling: null,
+
+    loadingMessages: false
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+function now(){
+    return Date.now();
+}
+
+function id(prefix = ""){
+    return prefix +
+        Date.now().toString(36) +
+        Math.random().toString(36).slice(2,9);
+}
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function initials(name){
+
+    name = String(name || "N").trim();
+
+    if(!name){
+        return "N";
+    }
+
+    return name
+        .split(/\s+/)
+        .slice(0,2)
+        .map(x => x[0])
+        .join("")
+        .toUpperCase();
+}
+
+function formatTime(timestamp){
+
+    if(!timestamp){
+        return "";
+    }
+
+    const date = new Date(timestamp);
+
+    return date.toLocaleTimeString("ar-EG",{
+        hour:"2-digit",
+        minute:"2-digit"
+    });
+}
+
+function showToast(message){
+
+    const t = $("toast");
+
+    t.textContent = message;
+
+    t.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(()=>{
+        t.classList.remove("show");
+    },2500);
+}
+
+
+/* =========================================================
+   FIREBASE REST
+========================================================= */
+
+function firebaseURL(path){
+
+    const base =
+        CONFIG.FIREBASE_DB.replace(/\/+$/,"");
+
+    return base + "/" + path + ".json";
+}
+
+async function dbGet(path){
+
+    const response =
+        await fetch(firebaseURL(path),{
+            method:"GET"
+        });
+
+    if(!response.ok){
+        throw new Error("Firebase GET failed");
+    }
+
+    return await response.json();
+}
+
+async function dbPut(path,data){
+
+    const response =
+        await fetch(firebaseURL(path),{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        });
+
+    if(!response.ok){
+        throw new Error("Firebase PUT failed");
+    }
+
+    return await response.json();
+}
+
+async function dbPatch(path,data){
+
+    const response =
+        await fetch(firebaseURL(path),{
+            method:"PATCH",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        });
+
+    if(!response.ok){
+        throw new Error("Firebase PATCH failed");
+    }
+
+    return await response.json();
+}
+
+async function dbDelete(path){
+
+    const response =
+        await fetch(firebaseURL(path),{
+            method:"DELETE"
+        });
+
+    if(!response.ok){
+        throw new Error("Firebase DELETE failed");
+    }
+
+    return true;
+}
+
+
+/* =========================================================
+   SIMPLE PASSWORD HASH
+========================================================= */
+
+function hashPassword(password){
+
+    /*
+      هذا مجرد Hash بسيط للنسخة التجريبية.
+      للحماية الحقيقية سيتم نقل تسجيل الدخول لاحقًا
+      إلى Firebase Authentication.
+    */
+
+    let hash = 2166136261;
+
+    for(let i=0;i<password.length;i++){
+
+        hash ^= password.charCodeAt(i);
+
+        hash +=
+            (hash << 1) +
+            (hash << 4) +
+            (hash << 7) +
+            (hash << 8) +
+            (hash << 24);
+    }
+
+    return (
+        hash >>> 0
+    ).toString(16);
+}
+
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function showAuth(type){
+
+    const login =
+        type === "login";
+
+    $("loginForm")
+        .classList.toggle("hidden",!login);
+
+    $("registerForm")
+        .classList.toggle("hidden",login);
+
+    $("loginTab")
+        .classList.toggle("active",login);
+
+    $("registerTab")
+        .classList.toggle("active",!login);
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function register(){
+
+    const username =
+        $("registerUsername").value.trim();
+
+    const email =
+        $("registerEmail").value.trim().toLowerCase();
+
+    const password =
+        $("registerPassword").value;
+
+    if(username.length < 3){
+        return showToast("اسم المستخدم قصير جدًا");
+    }
+
+    if(!email.includes("@")){
+        return showToast("أدخل بريدًا إلكترونيًا صحيحًا");
+    }
+
+    if(password.length < 6){
+        return showToast("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+    }
+
+    try{
+
+        showToast("جاري إنشاء الحساب...");
+
+        const users =
+            await dbGet("users") || {};
+
+        const exists =
+            Object.values(users).some(user =>
+                String(user.email || "").toLowerCase() === email ||
+                String(user.username || "").toLowerCase() === username.toLowerCase()
+            );
+
+        if(exists){
+            return showToast("اسم المستخدم أو البريد مستخدم بالفعل");
+        }
+
+        const uid =
+            id("u_");
+
+        const user = {
+
+            id:uid,
+
+            username:username,
+
+            email:email,
+
+            passwordHash:
+                hashPassword(password),
+
+            createdAt:now()
+
+        };
+
+        await dbPut(
+            "users/" + uid,
+            user
+        );
+
+        state.user = {
+            id:uid,
+            uid:uid,
+            username:username,
+            email:email
+        };
+
+        saveSession();
+
+        showApp();
+
+        showToast("تم إنشاء الحساب");
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "حدث خطأ أثناء إنشاء الحساب"
+        );
+    }
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+    const identity =
+        $("loginIdentity").value.trim().toLowerCase();
+
+    const password =
+        $("loginPassword").value;
+
+    if(!identity || !password){
+        return showToast("أكمل البيانات");
+    }
+
+    try{
+
+        showToast("جاري تسجيل الدخول...");
+
+        const users =
+            await dbGet("users") || {};
+
+        const user =
+            Object.values(users).find(u =>
+
+                String(u.email || "")
+                    .toLowerCase() === identity ||
+
+                String(u.username || "")
+                    .toLowerCase() === identity
+            );
+
+        if(!user){
+            return showToast("الحساب غير موجود");
+        }
+
+        if(
+            user.passwordHash !==
+            hashPassword(password)
+        ){
+            return showToast("كلمة المرور غير صحيحة");
+        }
+
+        state.user = {
+            id:user.id,
+            uid:user.id,
+            username:user.username,
+            email:user.email
+        };
+
+        saveSession();
+
+        showApp();
+
+        showToast("تم تسجيل الدخول");
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "تعذر الاتصال بقاعدة البيانات"
+        );
+    }
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+function saveSession(){
+
+    localStorage.setItem(
+        "NEGM_SESSION",
+        JSON.stringify(state.user)
+    );
+}
+
+function loadSession(){
+
+    try{
+
+        const saved =
+            localStorage.getItem("NEGM_SESSION");
+
+        if(!saved){
+            return false;
+        }
+
+        state.user =
+            JSON.parse(saved);
+
+        return !!state.user;
+
+    }catch(e){
+
+        return false;
+    }
+}
+
+function logout(){
+
+    stopPolling();
+
+    localStorage.removeItem("NEGM_SESSION");
+
+    state.user = null;
+    state.chats = [];
+    state.currentChat = null;
+    state.currentOtherUser = null;
+    state.messages = [];
+
+    $("app").classList.add("hidden");
+    $("authScreen").classList.remove("hidden");
+
+    $("loginIdentity").value = "";
+    $("loginPassword").value = "";
+
+    showAuth("login");
+}
+
+
+/* =========================================================
+   APP START
+========================================================= */
+
+function showApp(){
+
+    $("authScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+
+    updateProfile();
+
+    loadChats();
+}
+
+function updateProfile(){
+
+    if(!state.user){
+        return;
+    }
+
+    $("profileName").textContent =
+        state.user.username || "NEGM";
+
+    $("profileEmail").textContent =
+        state.user.email || "-";
+
+    $("profileAvatar").textContent =
+        initials(state.user.username);
+}
+
+
+/* =========================================================
+   USERS
+========================================================= */
+
+async function findUser(identity){
+
+    const users =
+        await dbGet("users") || {};
+
+    return Object.values(users).find(user =>
+
+        String(user.email || "")
+            .toLowerCase() === identity.toLowerCase()
+
+        ||
+
+        String(user.username || "")
+            .toLowerCase() === identity.toLowerCase()
+
+    );
+}
+
+
+/* =========================================================
+   CONVERSATIONS
+========================================================= */
+
+function conversationHasUser(conversation,uid){
+
+    if(!conversation || !conversation.participants){
+        return false;
+    }
+
+    return !!conversation.participants[uid];
+}
+
+function getOtherParticipant(conversation){
+
+    const participants =
+        conversation.participants || {};
+
+    const ids =
+        Object.keys(participants);
+
+    return ids.find(
+        uid => uid !== state.user.uid
+    );
+}
+
+async function loadChats(){
+
+    if(!state.user){
+        return;
+    }
+
+    try{
+
+        const data =
+            await dbGet("conversations") || {};
+
+        const conversations =
+            Object.values(data)
+            .filter(c =>
+                conversationHasUser(
+                    c,
+                    state.user.uid
+                )
+            )
+            .sort(
+                (a,b) =>
+                    (b.updatedAt || 0) -
+                    (a.updatedAt || 0)
+            );
+
+        state.chats =
+            await Promise.all(
+                conversations.map(async c => {
+
+                    const otherId =
+                        getOtherParticipant(c);
+
+                    let other = null;
+
+                    if(otherId){
+
+                        try{
+
+                            other =
+                                await dbGet(
+                                    "users/" + otherId
+                                );
+
+                        }catch(e){}
+                    }
+
+                    return {
+                        ...c,
+                        otherUser:other
+                    };
+
+                })
+            );
+
+        renderChats();
+
+        if(state.currentChat){
+
+            const current =
+                state.chats.find(
+                    c => c.id === state.currentChat
+                );
+
+            if(current){
+                state.currentOtherUser =
+                    current.otherUser;
+
+                updateChatHeader();
+
+            }
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        renderChats();
+    }
+}
+
+
+/* =========================================================
+   RENDER CHATS
+========================================================= */
+
+function renderChats(){
+
+    const container =
+        $("chats");
+
+    const search =
+        $("chatSearch").value
+            .trim()
+            .toLowerCase();
+
+    let chats =
+        state.chats;
+
+    if(search){
+
+        chats =
+            chats.filter(c => {
+
+                const name =
+                    c.otherUser?.username || "";
+
+                const email =
+                    c.otherUser?.email || "";
+
+                return (
+                    name.toLowerCase().includes(search) ||
+                    email.toLowerCase().includes(search)
+                );
+
+            });
+    }
+
+    if(!chats.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                لا توجد محادثات حتى الآن.<br>
+                اضغط على + لبدء محادثة.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        chats.map(c => {
+
+            const user =
+                c.otherUser || {};
+
+            const name =
+                user.username || "مستخدم";
+
+            const active =
+                c.id === state.currentChat
+                    ? "active"
+                    : "";
+
+            return `
+                <div
+                    class="chatItem ${active}"
+                    onclick="openChat('${c.id}')">
+
+                    <div class="avatar">
+                        ${escapeHTML(
+                            initials(name)
+                        )}
+                    </div>
+
+                    <div class="chatInfo">
+
+                        <div class="chatName">
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div class="chatLast">
+                            ${escapeHTML(
+                                c.lastMessage ||
+                                "ابدأ المحادثة"
+                            )}
+                        </div>
+
+                    </div>
+
+                    <div class="chatTime">
+                        ${formatTime(c.updatedAt)}
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+/* =========================================================
+   NEW CHAT
+========================================================= */
+
+function openNewChat(){
+
+    $("newChatModal")
+        .classList.remove("hidden");
+
+    $("newChatIdentity")
+        .value = "";
+
+    setTimeout(() =>
+        $("newChatIdentity").focus(),
+        100
+    );
+}
+
+function closeNewChat(){
+
+    $("newChatModal")
+        .classList.add("hidden");
+}
+
+async function createChat(){
+
+    const identity =
+        $("newChatIdentity")
+            .value
+            .trim();
+
+    if(!identity){
+        return showToast("أدخل اسم المستخدم أو البريد");
+    }
+
+    try{
+
+        const user =
+            await findUser(identity);
+
+        if(!user){
+            return showToast("المستخدم غير موجود");
+        }
+
+        if(user.id === state.user.uid){
+            return showToast("لا يمكنك إنشاء محادثة مع نفسك");
+        }
+
+        const conversations =
+            await dbGet("conversations") || {};
+
+        let existing = null;
+
+        for(
+            const conversation of
+            Object.values(conversations)
+        ){
+
+            const participants =
+                conversation.participants || {};
+
+            if(
+                participants[state.user.uid] &&
+                participants[user.id]
+            ){
+
+                existing = conversation;
+                break;
+
+            }
+        }
+
+        if(existing){
+
+            closeNewChat();
+
+            await openChat(existing.id);
+
+            return;
+        }
+
+        const conversationId =
+            id("c_");
+
+        const conversation = {
+
+            id:conversationId,
+
+            participants:{
+                [state.user.uid]:true,
+                [user.id]:true
+            },
+
+            createdAt:now(),
+
+            updatedAt:now(),
+
+            lastMessage:""
+
+        };
+
+        await dbPut(
+            "conversations/" +
+            conversationId,
+            conversation
+        );
+
+        closeNewChat();
+
+        await loadChats();
+
+        await openChat(conversationId);
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "تعذر إنشاء المحادثة"
+        );
+    }
+}
+
+
+/* =========================================================
+   OPEN CHAT
+========================================================= */
+
+async function openChat(chatId){
+
+    const chat =
+        state.chats.find(
+            c => c.id === chatId
+        );
+
+    if(!chat){
+        return;
+    }
+
+    state.currentChat =
+        chatId;
+
+    state.currentOtherUser =
+        chat.otherUser;
+
+    $("welcome")
+        .classList.add("hidden");
+
+    $("chat")
+        .classList.remove("hidden");
+
+    $("chat")
+        .classList.add("mobileOpen");
+
+    updateChatHeader();
+
+    renderChats();
+
+    await loadMessages(chatId);
+
+    startPolling();
+}
+
+function updateChatHeader(){
+
+    const user =
+        state.currentOtherUser || {};
+
+    const name =
+        user.username || "مستخدم";
+
+    $("chatName").textContent =
+        name;
+
+    $("chatAvatar").textContent =
+        initials(name);
+}
+
+
+/* =========================================================
+   LOAD MESSAGES
+========================================================= */
+
+async function loadMessages(chatId){
+
+    if(!chatId || state.loadingMessages){
+        return;
+    }
+
+    state.loadingMessages = true;
+
+    try{
+
+        const data =
+            await dbGet(
+                "messages/" + chatId
+            ) || {};
+
+        const messages =
+            Object.values(data)
+            .sort(
+                (a,b) =>
+                    (a.createdAt || 0) -
+                    (b.createdAt || 0)
+            );
+
+        state.messages =
+            messages;
+
+        renderMessages();
+
+    }catch(error){
+
+        console.error(error);
+
+    }finally{
+
+        state.loadingMessages = false;
+    }
+}
+
+
+/* =========================================================
+   RENDER MESSAGES
+========================================================= */
+
+function renderMessages(){
+
+    const container =
+        $("messages");
+
+    if(!state.messages.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                لا توجد رسائل.<br>
+                اكتب أول رسالة.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        state.messages.map(message => {
+
+            const mine =
+                message.senderId ===
+                state.user.uid;
+
+            let fileContent = "";
+            if(message.fileUrl){
+                if(message.fileType && message.fileType.startsWith("image/")){
+                    fileContent = `<div class="messageMedia"><img src="${escapeHTML(message.fileUrl)}" alt="image" /></div>`;
+                }else if(message.fileType && message.fileType.startsWith("video/")){
+                    fileContent = `<div class="messageMedia"><video src="${escapeHTML(message.fileUrl)}" controls></video></div>`;
+                }else{
+                    fileContent = `<div><a href="${escapeHTML(message.fileUrl)}" target="_blank" class="messageFile">📁 فتح الملف المرفق</a></div>`;
+                }
+            }
+
+            return `
+                <div class="message ${mine ? "mine" : "theirs"}">
+
+                    <div>
+                        ${escapeHTML(
+                            message.text || ""
+                        ).replace(/\n/g,"<br>")}
+                    </div>
+
+                    ${fileContent}
+
+                    <span class="messageTime">
+                        ${formatTime(
+                            message.createdAt
+                        )}
+                    </span>
+
+                </div>
+            `;
+
+        }).join("");
+
+    requestAnimationFrame(() => {
+
+        container.scrollTop =
+            container.scrollHeight;
+
+    });
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendMessage(fileData = null){
+
+    if(!state.currentChat){
+        return showToast("اختر محادثة أولًا");
+    }
+
+    const input =
+        $("messageInput");
+
+    const text =
+        input.value.trim();
+
+    if(!text && !fileData){
+        return;
+    }
+
+    try{
+
+        input.disabled = true;
+
+        const messageId =
+            id("m_");
+
+        const message = {
+
+            id:messageId,
+
+            senderId:
+                state.user.uid,
+
+            text:text,
+
+            fileUrl: fileData ? fileData.url : null,
+
+            fileType: fileData ? fileData.type : null,
+
+            createdAt:now()
+
+        };
+
+        await dbPut(
+            "messages/" +
+            state.currentChat +
+            "/" +
+            messageId,
+            message
+        );
+
+        await dbPatch(
+            "conversations/" +
+            state.currentChat,
+            {
+                lastMessage:
+                    fileData ? "📁 [ملف مرفق]" : text.slice(0,120),
+
+                updatedAt:now()
+            }
+        );
+
+        input.value = "";
+
+        resizeInput(input);
+
+        await loadMessages(
+            state.currentChat
+        );
+
+        await loadChats();
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "تعذر إرسال الرسالة"
+        );
+
+    }finally{
+
+        input.disabled = false;
+
+        input.focus();
+    }
+}
+
+
+/* =========================================================
+   POLLING
+========================================================= */
+
+function startPolling(){
+
+    stopPolling();
+
+    state.polling =
+        setInterval(async () => {
+
+            if(!state.currentChat){
+                return;
+            }
+
+            await loadMessages(
+                state.currentChat
+            );
+
+        },3000);
+}
+
+function stopPolling(){
+
+    if(state.polling){
+
+        clearInterval(
+            state.polling
+        );
+
+        state.polling = null;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+function closeMobileChat(){
+
+    $("chat")
+        .classList.remove("mobileOpen");
+
+    state.currentChat = null;
+
+    stopPolling();
+
+    renderChats();
+}
+
+
+/* =========================================================
+   MESSAGE INPUT
+========================================================= */
+
+function messageKey(event){
+
+    if(
+        event.key === "Enter" &&
+        !event.shiftKey
+    ){
+
+        event.preventDefault();
+
+        sendMessage();
+    }
+}
+
+function resizeInput(element){
+
+    element.style.height =
+        "auto";
+
+    element.style.height =
+        Math.min(
+            element.scrollHeight,
+            120
+        ) + "px";
+}
+
+
+/* =========================================================
+   FILES / SUPABASE STORAGE
+========================================================= */
+
+function attachmentNotice(){
+
+    if(
+        !CONFIG.SUPABASE_URL ||
+        !CONFIG.SUPABASE_PUBLISHABLE_KEY
+    ){
+
+        showToast(
+            "تخزين الصور والفيديوهات غير مفعّل بعد"
+        );
+
+        return;
+    }
+
+    $("fileInput").click();
+}
+
+async function uploadFile(event){
+
+    const file = event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+    if(!state.currentChat){
+        return showToast("اختر محادثة أولًا");
+    }
+
+    showToast("جاري رفع الملف...");
+
+    try{
+
+        const fileName = Date.now() + "_" + file.name;
+
+        const uploadUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/${CONFIG.SUPABASE_BUCKET}/${fileName}`;
+
+        const response = await fetch(uploadUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${CONFIG.SUPABASE_PUBLISHABLE_KEY}`,
+                "apiKey": CONFIG.SUPABASE_PUBLISHABLE_KEY,
+                "Content-Type": file.type
+            },
+            body: file
+        });
+
+        if(!response.ok){
+            throw new Error("فشل الرفع إلى Supabase Storage");
+        }
+
+        const publicUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/public/${CONFIG.SUPABASE_BUCKET}/${fileName}`;
+
+        await sendMessage({
+            url: publicUrl,
+            type: file.type
+        });
+
+        showToast("تم رفع الملف وإرساله بنجاح");
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast("حدث خطأ أثناء رفع الملف");
+
+    }finally{
+
+        event.target.value = "";
+    }
+}
+
+
+/* =========================================================
+   ENTER KEY AUTH
+========================================================= */
+
+$("loginPassword")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if(event.key === "Enter"){
+                login();
+            }
+
+        }
+    );
+
+$("registerPassword")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if(event.key === "Enter"){
+                register();
+            }
+
+        }
+    );
+
+$("newChatIdentity")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if(event.key === "Enter"){
+                createChat();
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        if(loadSession()){
+
+            showApp();
+
+        }else{
+
+            $("authScreen")
+                .classList.remove("hidden");
+
+            $("app")
+                .classList.add("hidden");
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
