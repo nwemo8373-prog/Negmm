@@ -26,6 +26,7 @@
     --accent2:#5b3ee4;
     --danger:#ff4d67;
     --green:#35d07f;
+    --app-font: Arial, "Tahoma", sans-serif;
 }
 
 html,body{
@@ -34,10 +35,10 @@ html,body{
     overflow:hidden;
     background:var(--bg);
     color:var(--text);
-    font-family:Arial,"Tahoma",sans-serif;
+    font-family:var(--app-font);
 }
 
-button,input,textarea{
+button,input,textarea,select{
     font-family:inherit;
 }
 
@@ -48,6 +49,37 @@ button{
 
 .hidden{
     display:none!important;
+}
+
+/* BRANDING & LOGO */
+.appBrandHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.appBrandLogo {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(124, 92, 255, 0.4);
+    border: 2px solid var(--accent);
+}
+
+.verifiedBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #0095f6;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    margin-right: 4px;
 }
 
 /* AUTH */
@@ -75,11 +107,10 @@ button{
 
 .logo{
     text-align:center;
-    font-size:42px;
+    font-size:38px;
     font-weight:900;
     letter-spacing:4px;
     color:#fff;
-    margin-bottom:7px;
 }
 
 .logoSub{
@@ -121,19 +152,18 @@ button{
     font-size:13px;
 }
 
-.field input{
+.field input, .field textarea, .field select{
     width:100%;
-    height:48px;
     border:1px solid var(--border);
     outline:none;
     background:#0b0c11;
     color:#fff;
     border-radius:13px;
-    padding:0 15px;
+    padding:12px 15px;
     font-size:15px;
 }
 
-.field input:focus{
+.field input:focus, .field textarea:focus, .field select:focus{
     border-color:var(--accent);
 }
 
@@ -145,6 +175,17 @@ button{
     border-radius:14px;
     font-weight:bold;
     font-size:15px;
+    margin-top:6px;
+}
+
+.secondaryBtn{
+    width:100%;
+    height:45px;
+    background:var(--panel2);
+    color:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    font-weight:bold;
     margin-top:6px;
 }
 
@@ -192,6 +233,15 @@ button{
     font-size:25px;
     font-weight:900;
     letter-spacing:2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
 }
 
 .iconBtn{
@@ -201,6 +251,9 @@ button{
     background:var(--panel2);
     color:#fff;
     font-size:19px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search{
@@ -212,6 +265,114 @@ button{
     color:#fff;
     outline:none;
     padding:0 14px;
+}
+
+/* STORIES SECTION */
+.storiesContainer {
+    display: flex;
+    gap: 10px;
+    padding: 10px 15px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    background: #0d0e13;
+}
+
+.storyItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 11px;
+    cursor: pointer;
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.storyRing {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    margin-bottom: 4px;
+}
+
+.storyRing.addStory {
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--accent);
+}
+
+.storyAvatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--panel);
+}
+
+.storyName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* SUGGESTIONS SECTION */
+.suggestionsBar {
+    padding: 10px 15px;
+    background: #0b0c10;
+    border-bottom: 1px solid var(--border);
+}
+
+.suggestionsTitle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.suggestionsList {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.suggestionCard {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px;
+    min-width: 120px;
+    text-align: center;
+}
+
+.suggestionCard .avatar {
+    margin: 0 auto 6px;
+    width: 38px;
+    height: 38px;
+}
+
+.suggestionCard .sName {
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.suggestionCard button {
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    width: 100%;
 }
 
 .chats{
@@ -247,6 +408,7 @@ button{
     font-size:18px;
     flex-shrink:0;
     overflow:hidden;
+    position: relative;
 }
 
 .avatar img{
@@ -263,6 +425,8 @@ button{
 .chatName{
     font-weight:bold;
     margin-bottom:5px;
+    display: flex;
+    align-items: center;
 }
 
 .chatLast{
@@ -285,7 +449,7 @@ button{
     line-height:1.8;
 }
 
-/* PROFILE */
+/* PROFILE SIDEBAR FOOTER */
 
 .profile{
     border-top:1px solid var(--border);
@@ -293,6 +457,11 @@ button{
     display:flex;
     align-items:center;
     gap:10px;
+    cursor: pointer;
+}
+
+.profile:hover {
+    background: var(--panel2);
 }
 
 .profile .avatar{
@@ -311,6 +480,8 @@ button{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    display: flex;
+    align-items: center;
 }
 
 .profileEmail{
@@ -319,6 +490,11 @@ button{
     margin-top:3px;
     overflow:hidden;
     text-overflow:ellipsis;
+}
+
+.profileActions {
+    display: flex;
+    gap: 5px;
 }
 
 .logout{
@@ -362,6 +538,8 @@ button{
 
 .chatHeaderName{
     font-weight:bold;
+    display: flex;
+    align-items: center;
 }
 
 .chatHeaderStatus{
@@ -478,17 +656,22 @@ button{
 }
 
 .welcomeLogo{
-    width:90px;
-    height:90px;
+    width:100px;
+    height:100px;
     border-radius:28px;
     background:linear-gradient(135deg,var(--accent),#3822a8);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:30px;
-    font-weight:900;
     margin-bottom:22px;
     box-shadow:0 15px 50px rgba(124,92,255,.25);
+    overflow: hidden;
+}
+
+.welcomeLogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .welcome h1{
@@ -507,32 +690,38 @@ button{
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.65);
+    background:rgba(0,0,0,.75);
     display:flex;
     align-items:center;
     justify-content:center;
     padding:20px;
     z-index:100;
+    backdrop-filter: blur(5px);
 }
 
 .modalBox{
-    width:min(430px,100%);
+    width:min(480px,100%);
     background:#11131a;
     border:1px solid var(--border);
     border-radius:23px;
     padding:22px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modalTitle{
     font-size:20px;
     font-weight:bold;
     margin-bottom:18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .modalActions{
     display:flex;
     gap:8px;
-    margin-top:10px;
+    margin-top:15px;
 }
 
 .modalActions button{
@@ -549,6 +738,33 @@ button{
 .confirmBtn{
     background:var(--accent);
     color:#fff;
+}
+
+/* PROFILE MODAL DESIGN */
+.profileHeaderCard {
+    text-align: center;
+    padding: 15px;
+    background: var(--panel2);
+    border-radius: 18px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+}
+
+.profileAvatarLarge {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 15px rgba(124, 92, 255, 0.4);
+}
+
+.profileBio {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 8px;
+    line-height: 1.5;
 }
 
 /* TOAST */
@@ -617,6 +833,9 @@ button{
 
 <body>
 
+<!-- الصوت الخاص بالإشعارات -->
+<audio id="notificationSound" src="shar.mp3" preload="auto"></audio>
+
 <!-- =========================
      AUTH
 ========================= -->
@@ -625,6 +844,9 @@ button{
 
     <div class="authBox">
 
+        <div class="appBrandHeader">
+            <img src="Snapchat-121853588~2.jpg" class="appBrandLogo" alt="NEGM Logo">
+        </div>
         <div class="logo">NEGM</div>
 
         <div class="logoSub">
@@ -723,13 +945,21 @@ button{
 
             <div class="topRow">
 
-                <div class="brand">NEGM</div>
+                <div class="brand">
+                    <img src="Snapchat-121853588~2.jpg" alt="NEGM">
+                    <span>NEGM</span>
+                </div>
 
-                <button class="iconBtn"
-                        onclick="openNewChat()"
-                        title="محادثة جديدة">
-                    +
-                </button>
+                <div style="display:flex; gap:6px;">
+                    <button class="iconBtn" onclick="openAdminModal()" id="adminBtn" style="display:none;" title="لوحة المالك">
+                        👑
+                    </button>
+                    <button class="iconBtn"
+                            onclick="openNewChat()"
+                            title="محادثة جديدة">
+                        +
+                    </button>
+                </div>
 
             </div>
 
@@ -742,15 +972,30 @@ button{
 
         </div>
 
+        <!-- STORIES SECTION -->
+        <div class="storiesContainer" id="storiesContainer">
+            <div class="storyItem" onclick="triggerStoryUpload()">
+                <div class="storyRing addStory">+</div>
+                <span class="storyName">قصتي</span>
+            </div>
+            <!-- Stories from DB will load here -->
+        </div>
+
+        <!-- SUGGESTIONS SECTION -->
+        <div class="suggestionsBar" id="suggestionsBar">
+            <div class="suggestionsTitle">مقترحات لك</div>
+            <div class="suggestionsList" id="suggestionsList"></div>
+        </div>
+
         <div id="chats" class="chats"></div>
 
         <div class="profile">
 
-            <div id="profileAvatar" class="avatar">
+            <div id="profileAvatar" class="avatar" onclick="openProfileModal()">
                 N
             </div>
 
-            <div class="profileInfo">
+            <div class="profileInfo" onclick="openProfileModal()">
 
                 <div id="profileName" class="profileName">
                     NEGM
@@ -762,9 +1007,14 @@ button{
 
             </div>
 
-            <button class="logout" onclick="logout()">
-                ⎋
-            </button>
+            <div class="profileActions">
+                <button class="iconBtn" style="width:36px; height:36px;" onclick="openSettingsModal()" title="الإعدادات">
+                    ⚙️
+                </button>
+                <button class="logout" onclick="logout()">
+                    ⎋
+                </button>
+            </div>
 
         </div>
 
@@ -776,7 +1026,7 @@ button{
     <section id="welcome" class="welcome">
 
         <div class="welcomeLogo">
-            N
+            <img src="Snapchat-121853588~2.jpg" alt="NEGM Logo">
         </div>
 
         <h1>مرحبًا بك في NEGM</h1>
@@ -852,9 +1102,119 @@ button{
 
 
 <!-- =========================
-     NEW CHAT MODAL
+     MODALS
 ========================= -->
 
+<!-- TERMS & CONDITIONS MODAL -->
+<div id="termsModal" class="modal hidden">
+    <div class="modalBox">
+        <div class="modalTitle">الشروط والأحكام</div>
+        <div style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:15px; max-height:200px; overflow-y:auto;">
+            أهلاً بك في تطبيق NEGM Messenger. لاستخدام التطبيق يجب الموافقة على الشروط التالية:<br><br>
+            1. عدم نشر أي محتوى مسيء أو غير أخلاقي.<br>
+            2. احترام خصوصيات وأمان المستخدمين الآخرين.<br>
+            3. الالتزام بعدم استغلال المنصة في الأنشطة غير القانونية.<br>
+            4. للمالك الحق في حظر أو توثيق الحسابات بحسب سياسات المنصة.
+        </div>
+        <button class="primaryBtn" onclick="acceptTerms()">أوافق على الشروط والأحكام</button>
+    </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="modal hidden">
+    <div class="modalBox">
+        <div class="modalTitle">
+            <span>الملف الشخصي</span>
+            <button onclick="closeProfileModal()" style="background:none; color:#fff; font-size:20px;">✕</button>
+        </div>
+
+        <div class="profileHeaderCard">
+            <img id="modalProfileImg" src="" class="profileAvatarLarge" alt="Profile Picture" style="display:none;">
+            <div id="modalProfileInitials" class="profileAvatarLarge" style="display:flex; align-items:center; justify-content:center; font-size:32px; background:var(--accent);">N</div>
+            <h3 id="modalProfileName" style="margin-bottom:4px; display:flex; align-items:center; justify-content:center; gap:5px;">NEGM</h3>
+            <div id="modalProfileBio" class="profileBio">لا تتوفر نبذة شخصية.</div>
+        </div>
+
+        <div class="field">
+            <label>تغيير الصورة الشخصية</label>
+            <input type="file" id="profileImgInput" accept="image/*" onchange="uploadProfileImage(event)">
+        </div>
+
+        <div class="field">
+            <label>النبذة الشخصية (Bio)</label>
+            <textarea id="profileBioInput" rows="2" placeholder="اكتب وصفاً جذاباً عن نفسك..."></textarea>
+        </div>
+
+        <button class="primaryBtn" onclick="saveProfileDetails()">حفظ التغييرات</button>
+    </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modal hidden">
+    <div class="modalBox">
+        <div class="modalTitle">
+            <span>إعدادات التطبيق</span>
+            <button onclick="closeSettingsModal()" style="background:none; color:#fff; font-size:20px;">✕</button>
+        </div>
+
+        <div class="field">
+            <label>تغيير نوع الخط</label>
+            <select id="fontSelect" onchange="changeAppFont(this.value)">
+                <option value='Arial, "Tahoma", sans-serif'>الخط الافتراضي (Arial)</option>
+                <option value='"Segoe UI", Roboto, sans-serif'>Segoe UI</option>
+                <option value='"Courier New", monospace'>Courier New (برمجي)</option>
+                <option value='Tahoma, sans-serif'>Tahoma</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>صوت الإشعارات الخاص بك</label>
+            <input type="file" id="customAudioInput" accept="audio/*" onchange="setCustomNotificationSound(event)">
+        </div>
+
+        <button class="secondaryBtn" onclick="closeSettingsModal()">إغلاق</button>
+    </div>
+</div>
+
+<!-- ADMIN MODAL (لوحة المالك) -->
+<div id="adminModal" class="modal hidden">
+    <div class="modalBox">
+        <div class="modalTitle">
+            <span>👑 لوحة التحكم بالمالك</span>
+            <button onclick="closeAdminModal()" style="background:none; color:#fff; font-size:20px;">✕</button>
+        </div>
+
+        <div class="field">
+            <label>إرسال إشعار عام للجميع</label>
+            <input id="adminBroadcastText" type="text" placeholder="اكتب نص الإشعار العام...">
+            <button class="primaryBtn" style="margin-top:8px;" onclick="sendAdminBroadcast()">إرسال إشعار</button>
+        </div>
+
+        <hr style="border-color:var(--border); margin:15px 0;">
+
+        <div class="field">
+            <label>توثيق حساب مستخدم (شارة التوثيق Blue Tick)</label>
+            <select id="adminUserSelect"></select>
+            <button class="primaryBtn" style="margin-top:8px; background:var(--green);" onclick="toggleVerifyUser()">توثيق / إلغاء توثيق الحساب</button>
+        </div>
+    </div>
+</div>
+
+<!-- STORY VIEW MODAL -->
+<div id="storyViewModal" class="modal hidden">
+    <div class="modalBox" style="text-align:center; padding:15px;">
+        <div class="modalTitle">
+            <span id="storyOwnerName">القصة</span>
+            <button onclick="closeStoryViewModal()" style="background:none; color:#fff; font-size:20px;">✕</button>
+        </div>
+        <div id="storyMediaContainer" style="max-height:60vh; overflow:hidden; border-radius:12px; margin-bottom:10px;"></div>
+    </div>
+</div>
+
+<!-- INPUT FOR STORY UPLOAD -->
+<input type="file" id="storyFileInput" class="hidden" accept="image/*,video/*" onchange="uploadStoryFile(event)">
+
+<!-- NEW CHAT MODAL -->
 <div id="newChatModal" class="modal hidden">
 
     <div class="modalBox">
@@ -918,7 +1278,11 @@ const CONFIG = {
     */
     SUPABASE_URL: "https://byesoztsovwhnxrsgnsm.supabase.co",
     SUPABASE_PUBLISHABLE_KEY: "sb_publishable_38mm264m5JCeJua1QmTWHw_k5iNYJhM",
-    SUPABASE_BUCKET: "memories"
+    SUPABASE_BUCKET: "memories",
+
+    /* OWNER ACCOUNT DATA */
+    OWNER_EMAIL: "njma6797@gmail.com",
+    OWNER_PASS_HASH: hashPassword("2009257ma")
 
 };
 
@@ -941,7 +1305,11 @@ const state = {
 
     polling: null,
 
-    loadingMessages: false
+    loadingMessages: false,
+
+    stories: [],
+
+    allUsers: []
 
 };
 
@@ -1002,6 +1370,16 @@ function formatTime(timestamp){
     });
 }
 
+function playNotificationSound() {
+    try {
+        const audio = $("notificationSound");
+        if(audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log(e));
+        }
+    } catch(e) {}
+}
+
 function showToast(message){
 
     const t = $("toast");
@@ -1010,6 +1388,8 @@ function showToast(message){
 
     t.classList.add("show");
 
+    playNotificationSound();
+
     clearTimeout(window.toastTimer);
 
     window.toastTimer = setTimeout(()=>{
@@ -1017,6 +1397,12 @@ function showToast(message){
     },2500);
 }
 
+function renderVerifiedBadge(isVerified) {
+    if(isVerified) {
+        return `<span class="verifiedBadge" title="حساب موثق">✓</span>`;
+    }
+    return '';
+}
 
 /* =========================================================
    FIREBASE REST
@@ -1100,12 +1486,6 @@ async function dbDelete(path){
 ========================================================= */
 
 function hashPassword(password){
-
-    /*
-      هذا مجرد Hash بسيط للنسخة التجريبية.
-      للحماية الحقيقية سيتم نقل تسجيل الدخول لاحقًا
-      إلى Firebase Authentication.
-    */
 
     let hash = 2166136261;
 
@@ -1208,7 +1588,13 @@ async function register(){
             passwordHash:
                 hashPassword(password),
 
-            createdAt:now()
+            createdAt:now(),
+
+            isVerified: email === CONFIG.OWNER_EMAIL,
+
+            photoUrl: "",
+
+            bio: ""
 
         };
 
@@ -1221,12 +1607,15 @@ async function register(){
             id:uid,
             uid:uid,
             username:username,
-            email:email
+            email:email,
+            isVerified: user.isVerified,
+            photoUrl: "",
+            bio: ""
         };
 
         saveSession();
 
-        showApp();
+        checkTermsModal();
 
         showToast("تم إنشاء الحساب");
 
@@ -1264,7 +1653,7 @@ async function login(){
         const users =
             await dbGet("users") || {};
 
-        const user =
+        let user =
             Object.values(users).find(u =>
 
                 String(u.email || "")
@@ -1273,6 +1662,22 @@ async function login(){
                 String(u.username || "")
                     .toLowerCase() === identity
             );
+
+        // إذا كان المالك ولم يكن موجهاً ببيانات مسجلة سابقاً، أنشئ حسابه تلقائياً
+        if(!user && identity === CONFIG.OWNER_EMAIL && hashPassword(password) === CONFIG.OWNER_PASS_HASH) {
+            const uid = id("u_owner_");
+            user = {
+                id: uid,
+                username: "NEGM Owner",
+                email: CONFIG.OWNER_EMAIL,
+                passwordHash: CONFIG.OWNER_PASS_HASH,
+                createdAt: now(),
+                isVerified: true,
+                photoUrl: "Snapchat-121853588~2.jpg",
+                bio: "مالك ورئيس منصة NEGM Messenger"
+            };
+            await dbPut("users/" + uid, user);
+        }
 
         if(!user){
             return showToast("الحساب غير موجود");
@@ -1289,12 +1694,15 @@ async function login(){
             id:user.id,
             uid:user.id,
             username:user.username,
-            email:user.email
+            email:user.email,
+            isVerified: user.isVerified || false,
+            photoUrl: user.photoUrl || "",
+            bio: user.bio || ""
         };
 
         saveSession();
 
-        showApp();
+        checkTermsModal();
 
         showToast("تم تسجيل الدخول");
 
@@ -1310,7 +1718,7 @@ async function login(){
 
 
 /* =========================================================
-   SESSION
+   SESSION & TERMS
 ========================================================= */
 
 function saveSession(){
@@ -1341,6 +1749,21 @@ function loadSession(){
 
         return false;
     }
+}
+
+function checkTermsModal(){
+    const accepted = localStorage.getItem("NEGM_TERMS_ACCEPTED");
+    if(!accepted){
+        $("termsModal").classList.remove("hidden");
+    } else {
+        showApp();
+    }
+}
+
+function acceptTerms(){
+    localStorage.setItem("NEGM_TERMS_ACCEPTED", "true");
+    $("termsModal").classList.add("hidden");
+    showApp();
 }
 
 function logout(){
@@ -1374,9 +1797,17 @@ function showApp(){
     $("authScreen").classList.add("hidden");
     $("app").classList.remove("hidden");
 
+    if(state.user && state.user.email === CONFIG.OWNER_EMAIL) {
+        $("adminBtn").style.display = "inline-flex";
+    }
+
     updateProfile();
 
     loadChats();
+
+    loadStories();
+
+    loadSuggestions();
 }
 
 function updateProfile(){
@@ -1385,19 +1816,25 @@ function updateProfile(){
         return;
     }
 
-    $("profileName").textContent =
-        state.user.username || "NEGM";
+    const vBadge = renderVerifiedBadge(state.user.isVerified);
+
+    $("profileName").innerHTML =
+        escapeHTML(state.user.username || "NEGM") + vBadge;
 
     $("profileEmail").textContent =
         state.user.email || "-";
 
-    $("profileAvatar").textContent =
-        initials(state.user.username);
+    const avatarBox = $("profileAvatar");
+    if(state.user.photoUrl) {
+        avatarBox.innerHTML = `<img src="${escapeHTML(state.user.photoUrl)}" alt="Avatar" />`;
+    } else {
+        avatarBox.textContent = initials(state.user.username);
+    }
 }
 
 
 /* =========================================================
-   USERS
+   USERS & SUGGESTIONS
 ========================================================= */
 
 async function findUser(identity){
@@ -1418,6 +1855,50 @@ async function findUser(identity){
     );
 }
 
+async function loadSuggestions(){
+    try {
+        const usersData = await dbGet("users") || {};
+        state.allUsers = Object.values(usersData);
+
+        const otherUsers = state.allUsers.filter(u => u.id !== state.user.uid);
+        const container = $("suggestionsList");
+
+        if(!otherUsers.length) {
+            $("suggestionsBar").style.display = "none";
+            return;
+        }
+
+        $("suggestionsBar").style.display = "block";
+        container.innerHTML = otherUsers.slice(0, 10).map(u => {
+            const avatarHtml = u.photoUrl 
+                ? `<img src="${escapeHTML(u.photoUrl)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`
+                : initials(u.username);
+
+            return `
+                <div class="suggestionCard">
+                    <div class="avatar">${avatarHtml}</div>
+                    <div class="sName">${escapeHTML(u.username)} ${renderVerifiedBadge(u.isVerified)}</div>
+                    <button onclick="quickStartChat('${escapeHTML(u.id)}')">مراسلة</button>
+                </div>
+            `;
+        }).join("");
+
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+async function quickStartChat(targetUserId) {
+    try {
+        const targetUser = state.allUsers.find(u => u.id === targetUserId);
+        if(!targetUser) return;
+
+        $("newChatIdentity").value = targetUser.username;
+        await createChat();
+    } catch(e) {
+        console.error(e);
+    }
+}
 
 /* =========================================================
    CONVERSATIONS
@@ -1588,21 +2069,23 @@ function renderChats(){
                     ? "active"
                     : "";
 
+            const avatarContent = user.photoUrl
+                ? `<img src="${escapeHTML(user.photoUrl)}" />`
+                : escapeHTML(initials(name));
+
             return `
                 <div
                     class="chatItem ${active}"
                     onclick="openChat('${c.id}')">
 
                     <div class="avatar">
-                        ${escapeHTML(
-                            initials(name)
-                        )}
+                        ${avatarContent}
                     </div>
 
                     <div class="chatInfo">
 
                         <div class="chatName">
-                            ${escapeHTML(name)}
+                            ${escapeHTML(name)} ${renderVerifiedBadge(user.isVerified)}
                         </div>
 
                         <div class="chatLast">
@@ -1796,11 +2279,15 @@ function updateChatHeader(){
     const name =
         user.username || "مستخدم";
 
-    $("chatName").textContent =
-        name;
+    $("chatName").innerHTML =
+        escapeHTML(name) + renderVerifiedBadge(user.isVerified);
 
-    $("chatAvatar").textContent =
-        initials(name);
+    const avatarHeader = $("chatAvatar");
+    if(user.photoUrl) {
+        avatarHeader.innerHTML = `<img src="${escapeHTML(user.photoUrl)}" />`;
+    } else {
+        avatarHeader.textContent = initials(name);
+    }
 }
 
 
@@ -1830,6 +2317,10 @@ async function loadMessages(chatId){
                     (a.createdAt || 0) -
                     (b.createdAt || 0)
             );
+
+        if(messages.length > state.messages.length && state.messages.length !== 0) {
+            playNotificationSound();
+        }
 
         state.messages =
             messages;
@@ -2006,6 +2497,269 @@ async function sendMessage(fileData = null){
     }
 }
 
+
+/* =========================================================
+   STORIES MANAGEMENT
+========================================================= */
+
+function triggerStoryUpload() {
+    $("storyFileInput").click();
+}
+
+async function uploadStoryFile(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    showToast("جاري رفع القصة...");
+
+    try {
+        const fileName = "story_" + Date.now() + "_" + file.name;
+        const uploadUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/${CONFIG.SUPABASE_BUCKET}/${fileName}`;
+
+        const response = await fetch(uploadUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${CONFIG.SUPABASE_PUBLISHABLE_KEY}`,
+                "apiKey": CONFIG.SUPABASE_PUBLISHABLE_KEY,
+                "Content-Type": file.type
+            },
+            body: file
+        });
+
+        if(!response.ok) throw new Error("فشل الرفع");
+
+        const publicUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/public/${CONFIG.SUPABASE_BUCKET}/${fileName}`;
+
+        const storyObj = {
+            id: id("s_"),
+            userId: state.user.uid,
+            userName: state.user.username,
+            url: publicUrl,
+            type: file.type,
+            createdAt: now()
+        };
+
+        await dbPut("stories/" + storyObj.id, storyObj);
+
+        showToast("تم إضافتها للقصص بنجاح");
+        loadStories();
+
+    } catch(e) {
+        console.error(e);
+        showToast("تعذر رفع القصة");
+    } finally {
+        event.target.value = "";
+    }
+}
+
+async function loadStories() {
+    try {
+        const data = await dbGet("stories") || {};
+        const storiesList = Object.values(data);
+        state.stories = storiesList;
+
+        const container = $("storiesContainer");
+        const myAddBtnHtml = `
+            <div class="storyItem" onclick="triggerStoryUpload()">
+                <div class="storyRing addStory">+</div>
+                <span class="storyName">قصتي</span>
+            </div>
+        `;
+
+        const otherStoriesHtml = storiesList.map(s => {
+            return `
+                <div class="storyItem" onclick="viewStory('${s.id}')">
+                    <div class="storyRing">
+                        <img class="storyAvatar" src="${escapeHTML(s.url)}" />
+                    </div>
+                    <span class="storyName">${escapeHTML(s.userName)}</span>
+                </div>
+            `;
+        }).join("");
+
+        container.innerHTML = myAddBtnHtml + otherStoriesHtml;
+
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+function viewStory(storyId) {
+    const story = state.stories.find(s => s.id === storyId);
+    if(!story) return;
+
+    $("storyOwnerName").textContent = story.userName;
+    const mediaContainer = $("storyMediaContainer");
+
+    if(story.type && story.type.startsWith("video/")) {
+        mediaContainer.innerHTML = `<video src="${escapeHTML(story.url)}" controls autoplay style="max-width:100%; max-height:50vh;"></video>`;
+    } else {
+        mediaContainer.innerHTML = `<img src="${escapeHTML(story.url)}" style="max-width:100%; max-height:50vh; object-fit:contain;" />`;
+    }
+
+    $("storyViewModal").classList.remove("hidden");
+}
+
+function closeStoryViewModal() {
+    $("storyViewModal").classList.add("hidden");
+    $("storyMediaContainer").innerHTML = "";
+}
+
+/* =========================================================
+   PROFILE & SETTINGS MODALS
+========================================================= */
+
+function openProfileModal() {
+    if(!state.user) return;
+
+    $("modalProfileName").innerHTML = escapeHTML(state.user.username) + renderVerifiedBadge(state.user.isVerified);
+    $("modalProfileBio").textContent = state.user.bio || "لا تتوفر نبذة شخصية.";
+    $("profileBioInput").value = state.user.bio || "";
+
+    if(state.user.photoUrl) {
+        $("modalProfileImg").src = state.user.photoUrl;
+        $("modalProfileImg").style.display = "block";
+        $("modalProfileInitials").style.display = "none";
+    } else {
+        $("modalProfileImg").style.display = "none";
+        $("modalProfileInitials").style.display = "flex";
+        $("modalProfileInitials").textContent = initials(state.user.username);
+    }
+
+    $("profileModal").classList.remove("hidden");
+}
+
+function closeProfileModal() {
+    $("profileModal").classList.add("hidden");
+}
+
+async function uploadProfileImage(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    showToast("جاري رفع الصورة الشخصية...");
+
+    try {
+        const fileName = "avatar_" + state.user.uid + "_" + Date.now();
+        const uploadUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/${CONFIG.SUPABASE_BUCKET}/${fileName}`;
+
+        const response = await fetch(uploadUrl, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${CONFIG.SUPABASE_PUBLISHABLE_KEY}`,
+                "apiKey": CONFIG.SUPABASE_PUBLISHABLE_KEY,
+                "Content-Type": file.type
+            },
+            body: file
+        });
+
+        if(!response.ok) throw new Error("فشل الرفع");
+
+        const publicUrl = `${CONFIG.SUPABASE_URL}/storage/v1/object/public/${CONFIG.SUPABASE_BUCKET}/${fileName}`;
+
+        state.user.photoUrl = publicUrl;
+        await dbPatch("users/" + state.user.uid, { photoUrl: publicUrl });
+
+        saveSession();
+        updateProfile();
+        openProfileModal();
+        showToast("تم تحديث الصورة الشخصية بنجاح");
+
+    } catch(e) {
+        console.error(e);
+        showToast("حدث خطأ أثناء رفع الصورة");
+    }
+}
+
+async function saveProfileDetails() {
+    const bioText = $("profileBioInput").value.trim();
+
+    try {
+        state.user.bio = bioText;
+        await dbPatch("users/" + state.user.uid, { bio: bioText });
+
+        saveSession();
+        openProfileModal();
+        showToast("تم حفظ البيانات بنجاح");
+    } catch(e) {
+        console.error(e);
+        showToast("تعذر حفظ البيانات");
+    }
+}
+
+function openSettingsModal() {
+    $("settingsModal").classList.remove("hidden");
+}
+
+function closeSettingsModal() {
+    $("settingsModal").classList.add("hidden");
+}
+
+function changeAppFont(fontFamily) {
+    document.documentElement.style.setProperty('--app-font', fontFamily);
+    showToast("تم تغيير الخط");
+}
+
+function setCustomNotificationSound(event) {
+    const file = event.target.files[0];
+    if(file) {
+        const url = URL.createObjectURL(file);
+        $("notificationSound").src = url;
+        showToast("تم تخصيص صوت الإشعار");
+    }
+}
+
+/* =========================================================
+   ADMIN PANEL (المالك)
+========================================================= */
+
+async function openAdminModal() {
+    if(state.user.email !== CONFIG.OWNER_EMAIL) return;
+
+    try {
+        const usersData = await dbGet("users") || {};
+        const usersList = Object.values(usersData);
+
+        const select = $("adminUserSelect");
+        select.innerHTML = usersList.map(u => `<option value="${u.id}">${escapeHTML(u.username)} (${u.isVerified ? 'موثق' : 'غير موثق'})</option>`).join("");
+
+        $("adminModal").classList.remove("hidden");
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+function closeAdminModal() {
+    $("adminModal").classList.add("hidden");
+}
+
+async function sendAdminBroadcast() {
+    const text = $("adminBroadcastText").value.trim();
+    if(!text) return;
+
+    showToast("📢 إشعار عام: " + text);
+    $("adminBroadcastText").value = "";
+    closeAdminModal();
+}
+
+async function toggleVerifyUser() {
+    const targetUid = $("adminUserSelect").value;
+    if(!targetUid) return;
+
+    try {
+        const targetUser = await dbGet("users/" + targetUid);
+        const newStatus = !targetUser.isVerified;
+
+        await dbPatch("users/" + targetUid, { isVerified: newStatus });
+
+        showToast(newStatus ? "تم توثيق الحساب" : "تم إلغاء التوثيق");
+        openAdminModal();
+        loadChats();
+    } catch(e) {
+        console.error(e);
+        showToast("حدث خطأ أثناء التعديل");
+    }
+}
 
 /* =========================================================
    POLLING
@@ -2217,7 +2971,7 @@ window.addEventListener(
 
         if(loadSession()){
 
-            showApp();
+            checkTermsModal();
 
         }else{
 
