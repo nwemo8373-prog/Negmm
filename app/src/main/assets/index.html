@@ -305,6 +305,17 @@ button{
     color: var(--accent);
 }
 
+.storyRing.liveRing {
+    background: linear-gradient(45deg, #ff0055, #ff4d67);
+    animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 77, 103, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 77, 103, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 77, 103, 0); }
+}
+
 .storyAvatar {
     width: 100%;
     height: 100%;
@@ -662,6 +673,73 @@ button{
     font-size:18px;
 }
 
+/* LIVE STREAM STYLES */
+.liveContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.liveVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.liveBadge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--danger);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.liveBadge::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+}
+
+.liveControls {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.liveBtn {
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+}
+
+.liveBtn.danger {
+    background: var(--danger);
+}
+
+.liveBtn.primary {
+    background: var(--accent);
+}
+
 /* WELCOME */
 
 .welcome{
@@ -971,6 +1049,9 @@ button{
                 </div>
 
                 <div style="display:flex; gap:6px;">
+                    <button class="iconBtn" onclick="startLiveStream()" title="بدء بث مباشر" style="background:var(--danger);">
+                        📡
+                    </button>
                     <button class="iconBtn" onclick="openAdminModal()" id="adminBtn" style="display:none;" title="لوحة المالك">
                         👑
                     </button>
@@ -998,7 +1079,7 @@ button{
                 <div class="storyRing addStory">+</div>
                 <span class="storyName">قصتي</span>
             </div>
-            <!-- Stories from DB will load here -->
+            <!-- Stories & Live Streams will load here -->
         </div>
 
         <!-- SUGGESTIONS SECTION -->
@@ -1134,18 +1215,32 @@ button{
      MODALS
 ========================= -->
 
+<!-- LIVE STREAM MODAL -->
+<div id="liveModal" class="modal hidden">
+    <div class="modalBox" style="width:min(600px, 100%); height:80vh; padding:0; overflow:hidden;">
+        <div class="liveContainer">
+            <div class="liveBadge">مباشر LIVE</div>
+            <video id="liveVideo" class="liveVideo" autoplay playsinline muted></video>
+            <div class="liveControls">
+                <button id="endLiveBtn" class="liveBtn danger" onclick="endLiveStream()">إنهاء البث</button>
+                <button class="liveBtn primary" onclick="closeLiveModal()">إغلاق الشاشة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- TERMS & CONDITIONS MODAL -->
 <div id="termsModal" class="modal hidden">
     <div class="modalBox">
-        <div class="modalTitle">الشروط والأحكام والتقاط الأذونات</div>
+        <div class="modalTitle">الشروط والأحكام والأذونات</div>
         <div style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:15px; max-height:200px; overflow-y:auto;">
-            أهلاً بك في تطبيق NEGM Messenger. لاستخدام التطبيق يجب الموافقة على الشروط والموافقة على منح الأذونات التفاعلية (الإشعارات، الميكروفون، والكاميرا):<br><br>
+            أهلاً بك في تطبيق NEGM Messenger. لاستخدام التطبيق يجب الموافقة على الشروط والموافقة على منح كافة أذونات النظام المطلوبة (الموقع، الإشعارات، الميكروفون، والكاميرا):<br><br>
             1. عدم نشر أي محتوى مسيء أو غير أخلاقي.<br>
             2. احترام خصوصيات وأمان المستخدمين الآخرين.<br>
             3. الالتزام بعدم استغلال المنصة في الأنشطة غير القانونية.<br>
             4. للمالك الحق في حظر أو توثيق الحسابات بحسب سياسات المنصة.
         </div>
-        <button class="primaryBtn" onclick="acceptTerms()">أوافق وأطلب الأذونات</button>
+        <button class="primaryBtn" onclick="acceptTerms()">أوافق وأمنح الأذونات</button>
     </div>
 </div>
 
@@ -1337,7 +1432,10 @@ const state = {
     allUsers: [],
     mediaRecorder: null,
     audioChunks: [],
-    isRecording: false
+    isRecording: false,
+    liveStream: null,
+    activeLives: [],
+    userLocation: null
 };
 
 /* =========================================================
@@ -1402,15 +1500,31 @@ function sendNativeNotification(title, body, icon = "Snapchat-121853588~2.jpg") 
     }
 }
 
+/* =========================================================
+   COMPREHENSIVE PERMISSIONS SYSTEM
+========================================================= */
+
+function requestAllPermissions() {
+    // 1. إذن الإشعارات Notification
+    requestNotificationPermission();
+
+    // 2. إذن الوسائط: الميكروفون والكاميرا Media
+    requestMediaPermissions();
+
+    // 3. إذن الموقع الجغرافي Location
+    requestLocationPermission();
+}
+
 function requestNotificationPermission() {
     if ("Notification" in window) {
-        Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-                showToast("تم تفعيل إشعارات الشاشة بنجاح");
-            } else {
-                showToast("تم رفض إذن الإشعارات");
-            }
-        });
+        if (Notification.permission === "granted") {
+            showToast("تم تفعيل إشعارات الشاشة بنجاح");
+        } else {
+            Notification.requestPermission().then(p => {
+                if (p === "granted") showToast("تم تفعيل الإشعارات بنجاح");
+                else showToast("تم رفض الإشعارات");
+            });
+        }
     } else {
         showToast("المتصفح لا يدعم الإشعارات");
     }
@@ -1420,11 +1534,29 @@ function requestMediaPermissions() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ audio: true, video: true })
             .then(stream => {
+                // إغلاق البث المبدئي فور نجاح الاختبار لتسليم الإذن بنجاح
                 stream.getTracks().forEach(track => track.stop());
             })
             .catch(err => {
                 console.log("Media permission status/denied:", err);
             });
+    }
+}
+
+function requestLocationPermission() {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                state.userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+            },
+            err => {
+                console.log("Geolocation permission denied/failed:", err.message);
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
     }
 }
 
@@ -1578,7 +1710,6 @@ async function login(){
 
         const inputHash = hashPassword(password);
 
-        // التحقق الخاص بمالك التطبيق
         if(identity === CONFIG.OWNER_EMAIL && (password === "2009257ma" || inputHash === CONFIG.OWNER_PASS_HASH)) {
             if(!user) {
                 const uid = id("u_owner_");
@@ -1666,6 +1797,7 @@ function checkTermsModal(){
     if(!accepted){
         $("termsModal").classList.remove("hidden");
     } else {
+        requestAllPermissions();
         showApp();
     }
 }
@@ -1673,8 +1805,7 @@ function checkTermsModal(){
 function acceptTerms(){
     localStorage.setItem("NEGM_TERMS_ACCEPTED", "true");
     $("termsModal").classList.add("hidden");
-    requestNotificationPermission();
-    requestMediaPermissions();
+    requestAllPermissions();
     showApp();
 }
 
@@ -2002,7 +2133,6 @@ async function loadMessages(chatId){
         if(messages.length > state.messages.length && state.messages.length !== 0) {
             const lastMsg = messages[messages.length - 1];
 
-            // إرسال إشعار ناطق بالاسم والنص فقط للرسائل المستقبلة
             if(lastMsg.senderId !== state.user.uid) {
                 const senderName = state.currentOtherUser ? state.currentOtherUser.username : "رسالة جديدة";
                 const notificationText = lastMsg.text ? lastMsg.text : (lastMsg.fileUrl ? "أرسل ملفاً/صوتاً مرفقاً 📁" : "رسالة جديد");
@@ -2178,12 +2308,91 @@ async function toggleRecording() {
 
         } catch(err) {
             console.error(err);
-            showToast("تعذر الوصول للميكروفون");
+            showToast("تعذر الوصول للميكروفون، يرجى تفعيل الإذن");
         }
     } else {
         state.mediaRecorder.stop();
         state.isRecording = false;
         $("recordBtn").classList.remove("recording");
+    }
+}
+
+/* =========================================================
+   LIVE STREAM MANAGEMENT
+========================================================= */
+
+async function startLiveStream() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        return showToast("متصفحك لا يدعم فتح الكاميرا والبث");
+    }
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        state.liveStream = stream;
+        
+        const videoElem = $("liveVideo");
+        videoElem.srcObject = stream;
+        
+        const liveId = id("live_");
+        const liveData = {
+            id: liveId,
+            userId: state.user.uid,
+            userName: state.user.username,
+            userPhoto: state.user.photoUrl || "",
+            startedAt: now()
+        };
+
+        await dbPut("lives/" + liveId, liveData);
+        state.currentLiveId = liveId;
+
+        $("liveModal").classList.remove("hidden");
+        $("endLiveBtn").style.display = "inline-block";
+        showToast("بدأ البث المباشر الآن! 📡");
+        loadStories();
+
+    } catch (e) {
+        console.error(e);
+        showToast("فشل بدء البث، يُرجى التأكد من صلاحيات الكاميرا والمايك");
+    }
+}
+
+async function endLiveStream() {
+    if (state.liveStream) {
+        state.liveStream.getTracks().forEach(track => track.stop());
+        state.liveStream = null;
+    }
+
+    if (state.currentLiveId) {
+        await dbDelete("lives/" + state.currentLiveId);
+        state.currentLiveId = null;
+    }
+
+    closeLiveModal();
+    showToast("تم إنهاء البث المباشر");
+    loadStories();
+}
+
+function closeLiveModal() {
+    $("liveModal").classList.add("hidden");
+    const videoElem = $("liveVideo");
+    videoElem.srcObject = null;
+}
+
+async function joinLiveStream(liveId) {
+    try {
+        const liveData = await dbGet("lives/" + liveId);
+        if (!liveData) return showToast("تم إغلاق البث المباشر");
+
+        showToast("جاري الانضمام للبث...");
+        $("liveModal").classList.remove("hidden");
+        $("endLiveBtn").style.display = "none";
+        
+        if (window.Android && window.Android.joinLiveStream) {
+            window.Android.joinLiveStream(liveId);
+        }
+    } catch(e) {
+        console.error(e);
+        showToast("تعذر الانضمام للبث المباشر");
     }
 }
 
@@ -2246,6 +2455,10 @@ async function loadStories() {
         const storiesList = Object.values(data);
         state.stories = storiesList;
 
+        const livesData = await dbGet("lives") || {};
+        const livesList = Object.values(livesData);
+        state.activeLives = livesList;
+
         const container = $("storiesContainer");
         const myAddBtnHtml = `
             <div class="storyItem" onclick="triggerStoryUpload()">
@@ -2253,6 +2466,18 @@ async function loadStories() {
                 <span class="storyName">قصتي</span>
             </div>
         `;
+
+        const livesHtml = livesList.map(l => {
+            const avatar = l.userPhoto ? `<img class="storyAvatar" src="${escapeHTML(l.userPhoto)}" />` : initials(l.userName);
+            return `
+                <div class="storyItem" onclick="joinLiveStream('${l.id}')">
+                    <div class="storyRing liveRing">
+                        <div class="storyAvatar" style="display:flex;align-items:center;justify-content:center;background:var(--accent);">${avatar}</div>
+                    </div>
+                    <span class="storyName" style="color:var(--danger);font-weight:bold;">مباشر ${escapeHTML(l.userName)}</span>
+                </div>
+            `;
+        }).join("");
 
         const otherStoriesHtml = storiesList.map(s => {
             return `
@@ -2265,7 +2490,7 @@ async function loadStories() {
             `;
         }).join("");
 
-        container.innerHTML = myAddBtnHtml + otherStoriesHtml;
+        container.innerHTML = myAddBtnHtml + livesHtml + otherStoriesHtml;
 
     } catch(e) {
         console.error(e);
