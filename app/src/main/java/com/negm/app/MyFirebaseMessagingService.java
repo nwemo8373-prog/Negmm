@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -15,6 +17,17 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String CHANNEL_ID = "negm_messages";
+    private static final String TAG = "NEGM_FCM";
+
+    @Override
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
+
+        // هذا هو المعرّف الخاص بجهاز المستخدم في FCM
+        Log.d(TAG, "FCM Token: " + token);
+
+        // في الخطوة التالية سنربطه بحساب المستخدم داخل Firebase.
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
