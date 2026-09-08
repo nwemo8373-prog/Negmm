@@ -7,15 +7,12 @@ plugins {
 
 android {
     namespace 'com.negm.app'
-
     compileSdk 36
 
     defaultConfig {
         applicationId 'com.negm.app'
-
         minSdk 26
         targetSdk 35
-
         versionCode 1
         versionName '1.0'
     }
@@ -36,37 +33,25 @@ android {
 
 dependencies {
 
-    implementation platform('androidx.compose:compose-bom:2026.08.00')
-
+    // Jetpack Compose
+    implementation platform('androidx.compose:compose-bom:2026.06.00')
     implementation 'androidx.activity:activity-compose'
-
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-tooling-preview'
-
     implementation 'androidx.compose.foundation:foundation'
-
     implementation 'androidx.compose.material3:material3'
-
-    implementation 'androidx.lifecycle:lifecycle-runtime-compose'
-
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
+    // AndroidX
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose'
 
     // Firebase
-
     implementation platform('com.google.firebase:firebase-bom:34.18.0')
-
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-messaging'
 
-
     // WebRTC
-
     implementation 'io.github.webrtc-sdk:android:144.7559.14'
-
-
-    // Camera / permissions
-
-    implementation 'androidx.core:core:1.17.0'
 }
